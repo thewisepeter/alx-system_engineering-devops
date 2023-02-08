@@ -1,2 +1,2 @@
-#!/bin/bang
+#!/bin/bash
 cd /. cd tmp mkdir my_first_directory
