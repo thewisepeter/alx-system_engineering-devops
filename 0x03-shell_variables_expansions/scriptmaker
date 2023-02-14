@@ -1,0 +1,9 @@
+#!/bin/bash
+#this is a script maker and auto githubber
+echo filename
+read varname
+vi $varname
+chmod +x $varname
+git add $varname
+git commit -m "$varname"
+git push
