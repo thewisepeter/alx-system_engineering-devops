@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -la | grep ^d | wc -l
+echo $PATH | ls -la | grep ^d | wc -l
