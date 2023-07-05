@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 #Bash script that displays listening ports
 
-sudo netstat -tunlp
+netstat -tunlp
+#lsof -i -P -n | grep LISTEN
