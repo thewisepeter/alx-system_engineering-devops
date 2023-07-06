@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 #Bash script that displays all active IPv4 IPs on the machine it’s executed on.
 
-#!/bin/bash
-
-# Retrieve IPv4 addresses using hostname -I
 ipv4_addresses=$(hostname -I | tr ' ' '\n')
 
-# Display the IPv4 addresses
-echo "Active IPv4 addresses:"
 echo "$ipv4_addresses"
