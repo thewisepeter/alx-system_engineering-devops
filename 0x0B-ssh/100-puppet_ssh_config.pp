@@ -4,6 +4,9 @@
 
 file {'/etc/ssh/ssh_config':
 	ensure	=> present,
-Host*
-	PasswordAuthentication no
-	IdentityFile ~/.ssh/school
+	content	=> @(EOF),
+		Host*
+			PasswordAuthentication no
+			IdentityFile ~/.ssh/school
+EOF
+}
