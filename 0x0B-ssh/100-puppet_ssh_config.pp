@@ -3,7 +3,7 @@
 #without typing a password.
 
 file {'/etc/ssh/ssh_config':
-	ensure => present,
+	ensure	=> present,
 Host*
 	PasswordAuthentication no
 	IdentityFile ~/.ssh/school
