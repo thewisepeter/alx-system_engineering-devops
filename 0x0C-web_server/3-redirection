@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script configures Nginx for a permanent redirection
+
+sudo echo "server {
+    listen 80;
+    server_name _;
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" > sudo /etc/nginx/sites-available/redirect_me
+
+# Create a symbolic link
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+sudo service nginx reload
