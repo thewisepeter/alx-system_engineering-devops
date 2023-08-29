@@ -9,4 +9,4 @@ ip_adddress="$2"
 username="$3"
 ssh_key="$4"
 
-scp -o StrictHostKeyChecking=no -i $ssh_key $file_path $username@$ip_address:~/
+scp -o StrictHostKeyChecking=no -i "$ssh_key" "$file_path" "$username@$ip_address:~/"
