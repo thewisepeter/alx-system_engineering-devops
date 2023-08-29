@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# This script configures Nginx for a permanent redirection
+
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+sudo service nginx start
+
+echo "server {
+    listen 80;
+    server_name _;
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" > /etc/nginx/sites-available/redirect_me
+
+# Create a symbolic link
+ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+sudo echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+sudo echo "server {
+	listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.html;
+
+        location /redirect_me {
+                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+        }
+	
+	error_page 404 /404.html;
+	location = /404.html{
+	internal;
+	}
+
+}" > default
+sudo mv -f default /etc/nginx/sites-available/default
+service nginx reload
