@@ -2,12 +2,12 @@
 # This script configures Nginx for a permanent redirection
 
 apt-get update
-  apt-get -y install nginx
-  ufw allow 'Nginx HTTP'
-  echo 'Hello World!' | sudo tee /var/www/html/index.html
-  sudo service nginx start
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+sudo service nginx start
 
-echo "server {
+sudo echo "server {
     listen 80;
     server_name _;
     location /redirect_me {
@@ -16,6 +16,6 @@ echo "server {
 }" > /etc/nginx/sites-available/redirect_me
 
 # Create a symbolic link
-ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
-service nginx reload
+sudo service nginx reload
