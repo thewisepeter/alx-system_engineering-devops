@@ -7,7 +7,7 @@ ufw allow 'Nginx HTTP'
 echo 'Hello World!' | sudo tee /var/www/html/index.html
 sudo service nginx start
 
-sudo echo "server {
+echo "server {
     listen 80;
     server_name _;
     location /redirect_me {
@@ -16,6 +16,6 @@ sudo echo "server {
 }" > /etc/nginx/sites-available/redirect_me
 
 # Create a symbolic link
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
-sudo service nginx reload
+service nginx reload
