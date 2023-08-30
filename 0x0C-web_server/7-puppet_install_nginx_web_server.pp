@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Install Nginx web server (w/ Puppet)
 
 # Define a class for the Nginx configuration
