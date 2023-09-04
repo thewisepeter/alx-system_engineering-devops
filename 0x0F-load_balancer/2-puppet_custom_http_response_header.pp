@@ -1,24 +1,36 @@
-# custom header with puppet
-exec {'update':
-	provider	=>	shell,
-	command	=>	'sudo apt-get -y update',
-	before	=>	Exec['install Nginx'],
+# Define a class for Nginx configuration
+class nginx_redirect {
+    package { 'nginx':
+        ensure => 'installed',
+    }
+
+    service { 'nginx':
+        ensure => 'running',
+        enable => true,
+    }
+
+    file { '/var/www/html/index.html':
+        ensure  => 'file',
+        content => 'Hello World!',
+    }
+
+    file { '/var/www/html/404.html':
+        ensure  => 'file',
+        content => "Ceci n'est pas une page",
+    }
+
+    file { '/etc/nginx/sites-available/default':
+        ensure  => 'file',
+        content => template('nginx/default.erb'),
+        notify  => Service['nginx'],
+    }
+
+    file { '/etc/nginx/sites-enabled/default':
+        ensure => 'link',
+        target => '/etc/nginx/sites-available/default',
+    }
 }
 
-exec {'install Nginx':
-	provider	=>	shell,
-	command	=>	'sudo apt-get -y install nginx',
-	before	=>	Exec['add_header']
-}
+# Apply the Nginx configuration class
+include nginx_redirect
 
-exec {'add_header':
-	provider	=>	shell,
-	environment => ["HOST=${hostname}"]
-	command	=>	'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
-	before	=>	Exec['restart Nginx'],
-}
-
-exec {'restart Nginx':
-	provider	=>	shell,
-	command	=>	'sudo service nginx restart',
-}
