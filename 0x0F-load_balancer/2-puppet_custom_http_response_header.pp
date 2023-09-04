@@ -1,36 +1,28 @@
-# Define a class for Nginx configuration
-class nginx_redirect {
-    package { 'nginx':
-        ensure => 'installed',
-    }
-
-    service { 'nginx':
-        ensure => 'running',
-        enable => true,
-    }
-
-    file { '/var/www/html/index.html':
-        ensure  => 'file',
-        content => 'Hello World!',
-    }
-
-    file { '/var/www/html/404.html':
-        ensure  => 'file',
-        content => "Ceci n'est pas une page",
-    }
-
-    file { '/etc/nginx/sites-available/default':
-        ensure  => 'file',
-        content => template('nginx/default.erb'),
-        notify  => Service['nginx'],
-    }
-
-    file { '/etc/nginx/sites-enabled/default':
-        ensure => 'link',
-        target => '/etc/nginx/sites-available/default',
-    }
+exec { 'update':
+  provider => shell,
+  command  => 'sudo apt-get -y update',
+  path     => '/usr/bin',
+  logoutput => true,
 }
 
-# Apply the Nginx configuration class
-include nginx_redirect
+exec { 'install Nginx':
+  provider => shell,
+  command  => 'sudo apt-get -y install nginx',
+  path     => '/usr/bin',
+  logoutput => true,
+  require  => Exec['update'], # Ensure 'update' is executed first
+}
 
+file { '/etc/nginx/nginx.conf':
+  ensure  => file,
+  content => template('nginx/nginx.conf.erb'), # Use a Puppet template
+  require => Exec['install Nginx'], # Ensure 'install Nginx' is executed first
+}
+
+exec { 'restart Nginx':
+  provider => shell,
+  command  => 'sudo service nginx restart',
+  path     => '/usr/bin',
+  logoutput => true,
+  require  => File['/etc/nginx/nginx.conf'], # Ensure the config file is in place
+}
