@@ -11,13 +11,13 @@ server_config=\
 backend wisepeter-backend
 	balance roundrobin
 	option forwardfor
-	server 100.25.34.61
-	server 100.25.180.211
+	server 245518-web-01 100.25.34.61:80 check
+	server 245518-web-02 100.25.180.211:80 check
 
 frontend wisepeter-frontend
 	bind *:80
 	mode http
-	default_backend web-backend
+	default_backend wisepeter-backend
 "
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
