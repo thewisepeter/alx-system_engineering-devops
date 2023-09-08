@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# script that displays information about subdomains
+
+getinfo () {
+	answer_section=$(dig "$1" | grep -A1 'ANSWER SECTION' | tail -n 1)
+	sub_domain=$(echo "$answer_section" | awk -F'.' '{print $1}')
+	record_type=$(echo "$answer_section" | awk '{print $4}')
+	destination=$(echo "$answer_section" | awk '{print $5}')
+
+	echo "The subdomain $sub_domain is a $record_type record and points to $destination"
+}
+if [ $# -eq 1 ]
+then
+	getinfo "www.$1"
+	getinfo "lb-01.$1"
+	getinfo "web-01.$1"
+	getinfo "web-02.$1"
+elif [ $# -eq 2 ]
+then
+	getinfo "$2.$1"
+fi
