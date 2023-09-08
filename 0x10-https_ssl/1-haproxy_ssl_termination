@@ -42,11 +42,5 @@ backend wisepeter-backend
 frontend wisepeter-frontend
         bind *:80
         mode http
+        bind *:443 ssl crt /etc/letsencrypt/live/thewisepeter.tech/fullchain.pem
         default_backend wisepeter-backend
-
-frontend wisepeter-https-frontend
-    bind *:443 ssl crt /etc/letsencrypt/live/thewisepeter.tech/fullchain.pem
-    mode http
-    option httplog
-    reqadd X-Forwarded-Proto:\ https if { ssl_fc }
-    default_backend wisepeter-backend
