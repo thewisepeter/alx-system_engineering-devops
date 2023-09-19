@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# script that configures nginx to run as nginx user
+
+# replace default ww-data with nginx
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+# allow nginx to listen on active IPs on port 8080
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+# allow nginx to write its own log files
+chmod 644 /etc/nginx/nginx.conf
+# start nginx with new user
+sudo -u nginx service nginx start
