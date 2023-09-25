@@ -3,10 +3,9 @@
     returns information about his/her
     TODO list progress
 """
-
-import sys
-import requests
 import json
+import requests
+import sys
 
 
 def get_todo_list():
