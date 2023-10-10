@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # script that finds users on subreddit
-import requests
+from requests import get
 
 def number_of_subscribers(subreddit):
     """
@@ -12,7 +12,7 @@ def number_of_subscribers(subreddit):
     
     user_agent = {'User-Agent': '0-subs/1.0'}
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    response = requests.get(url, headers=user_agent)
+    response = get(url, headers=user_agent)
     data = response.json()
 
     try:
