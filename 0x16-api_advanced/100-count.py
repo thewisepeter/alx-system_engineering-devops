@@ -45,12 +45,11 @@ def count_words(subreddit, word_list, after=None, counts={}):
 
             for title in titles:
                 for keyword in word_list:
-                    if (
-                        keyword.lower() in title and (
+                    if keyword.lower() in title and (
                             len(keyword) + title.count(keyword.lower()) ==
                             title.count(keyword.lower() + ' ') +
                             title.count(' ' + keyword.lower()) +
-                            title.count(' ' + keyword.lower() + ' '))
+                            title.count(' ' + keyword.lower() + ' ')
                     ):
                         counts[keyword.lower()] = counts.get(
                             keyword.lower(), 0) + 1
