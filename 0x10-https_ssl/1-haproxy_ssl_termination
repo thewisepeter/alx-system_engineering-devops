@@ -33,14 +33,18 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-backend wisepeter-backend
-        balance roundrobin
-        option forwardfor
-        server 245518-web-01 100.25.34.61:80 check
-        server 245518-web-02 100.25.180.211:80 check
-
-frontend wisepeter-frontend
+frontend wisdom-frontend-http
         bind *:80
         mode http
-        bind *:443 ssl crt /etc/letsencrypt/live/www.thewisepeter.tech/fullchain.pem
-        default_backend wisepeter-backend
+        http-request set-header X-Forwarded-Proto http
+        default_backend wisdom-backend
+
+frontend wisdom-frontend-https
+        bind *:443 ssl crt /etc/haproxy/certs/www.thewisepeter.tech.pem
+        http-request set-header X-Forwarded-Proto https
+        default_backend wisdom-backend
+
+backend wisdom-backend
+        balance roundrobin
+        server 245518-web-01 100.25.34.61:80 check
+        server 245518-web-02 100.25.180.211:80 check
