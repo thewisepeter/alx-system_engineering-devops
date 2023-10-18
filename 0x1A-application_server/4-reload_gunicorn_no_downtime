@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Define the Gunicorn process name
+GUNICORN_PROCESS="gunicorn"
+
+# Send the HUP signal to gracefully restart Gunicorn
+pids=($(pgrep -f $GUNICORN_PROCESS))
+
+if [ ${#pids[@]} -eq 0 ]; then
+  echo "Gunicorn process not found."
+else
+  for pid in "${pids[@]}"; do
+    kill -HUP $pid
+  done
+fi
